@@ -5,11 +5,36 @@ import { app, BrowserWindow, ipcMain, WebContents } from 'electron';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-// if (require('electron-squirrel-startup')) {
-//     // eslint-disable-line global-require
-//     app.quit();
-// }
+type MenuActionType = 'minimize' | 'maximize' | 'unmaximize' | 'restore' | 'close';
+
+function handleSizeChange(window: BrowserWindow) {
+    const actions: Array<MenuActionType> = ['minimize', 'unmaximize', 'maximize', 'restore', 'close'];
+    actions.forEach((action) => {
+        window.on(action as any, (e) => {
+            window.webContents.send('menu-actioned', {
+                type: action,
+            });
+        });
+    });
+    window.webContents.on('ipc-message', (e, channel, message) => {
+        if (channel !== 'menu-action') {
+            return;
+        }
+        const json = JSON.parse(message) as { type: string };
+        if (json.type === 'minimize') {
+            window.minimize();
+        }
+        if (json.type === 'maximize') {
+            window.maximize();
+        }
+        if (json.type === 'restore') {
+            window.restore();
+        }
+        if (json.type === 'close') {
+            window.close();
+        }
+    });
+}
 
 const createWindow = (): void => {
     // Create the browser window.
@@ -17,6 +42,7 @@ const createWindow = (): void => {
         height: 600,
         width: 800,
         frame: false,
+        hasShadow: false,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -27,8 +53,11 @@ const createWindow = (): void => {
     // and load the index.html of the app.
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    if (process.env.NODE_ENV === 'development') {
+        // Open the DevTools.
+        mainWindow.webContents.openDevTools();
+    }
+    handleSizeChange(mainWindow);
 };
 
 // This method will be called when Electron has finished
@@ -51,15 +80,6 @@ app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow();
     }
-});
-
-ipcMain.on('message', (event, message) => {
-    // const webContents = event.sender;
-    // const win = BrowserWindow.fromWebContents(webContents);
-    // console.log(win);
-    // console.log({
-    //     message,
-    // });
 });
 
 // In this file you can include the rest of your app's specific main process

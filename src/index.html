@@ -4,9 +4,133 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MoMo App</title>
+    <style>
+        html, body {
+            margin: 0px;
+            padding: 0px;
+        }
+        html {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        body {
+            flex: 1;
+            background-color: #f6f8fa;
+        }
+        html > * {
+            box-sizing: inherit;
+        }
+    </style>
+    <style>
+        .window-controls {
+            -webkit-app-region: drag;
+            width: 100%;
+            height: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            border-bottom: 1px solid rgb(225, 228, 232);
+        }
+        .window-controls input {
+            -webkit-app-region: no-drag;
+        }
+        .window-controls div.title {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            color: #2f363d;
+        }
+        .window-controls div img {
+            height: 80%;
+            margin: 0px 8px;
+        }
+        .window-controls > div:not(.title) {
+            -webkit-app-region: no-drag;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 46px;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+            color: #6a737d;
+            background-color: transparent;
+            transition: background-color .25s ease;
+        }
+        .window-controls > div:hover {
+            background-color: rgba(0,0,0,.1);
+        }
+        .window-controls > div[title='Close']:hover {
+            background-color: rgba(232,17,35,.9);
+            color: white;
+        }
+        .window-controls div svg {
+            fill: currentColor;
+        }
+    </style>
 </head>
 <body>
+    <div class="window-controls" style="display: none">
+        <div class="title">
+            <img src="data:image/jpeg;base64,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" alt="">
+            MoMo
+        </div>
+        <!-- <input id="color" type="color" value="#f6f8fa" name="color" > -->
+        <div aria-label="minimize" title="Minimize" tabindex="-1" class="window-control minimize">
+            <svg aria-hidden="true" version="1.1" width="10" height="10"><path d="M 0,5 10,5 10,6 0,6 Z"></path></svg>
+        </div>
+        <div aria-label="maximize" title="Maximize" tabindex="-1" class="window-control maximize">
+            <svg aria-hidden="true" version="1.1" width="10" height="10"><path d="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z"></path></svg>
+        </div>
+        <div aria-label="restore" title="Restore" tabindex="-1" class="window-control restore">
+            <svg aria-hidden="true" version="1.1" width="10" height="10"><path d="m 2,1e-5 0,2 -2,0 0,8 8,0 0,-2 2,0 0,-8 z m 1,1 6,0 0,6 -1,0 0,-5 -5,0 z m -2,2 6,0 0,6 -6,0 z"></path></svg>
+        </div>
+        <div aria-label="close" title="Close" tabindex="-1" class="window-control close">
+            <svg aria-hidden="true" version="1.1" width="10" height="10"><path d="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z"></path></svg>
+        </div>
+    </div>
     <div id="root"></div>
+    <script>
+        const electron = window.require('electron')
+        const windowControls = document.querySelector('.window-controls')
+        windowControls.style.display = '';
+        document.documentElement.insertBefore(windowControls, document.body)
+        const minimizeC = windowControls.querySelector('[title="Minimize"]')
+        const maximizeC = windowControls.querySelector('[title="Maximize"]')
+        const restoreC = windowControls.querySelector('[title="Restore"]')
+        const closeC = windowControls.querySelector('[title="Close"]')
+        windowControls.addEventListener('click', (e) => {
+            const type = e.target.closest('[aria-label]').getAttribute('aria-label');
+            if(type) {
+                electron.ipcRenderer.send('menu-action', JSON.stringify({
+                    type
+                }))
+            }
+        });
+        windowControls.addEventListener('onmousedown', (e) => {
+            e.preventDefault();
+        })
+        electron.ipcRenderer.on('menu-actioned', (e, json) => {
+            if(json.type === 'unmaximize') {
+                restoreC.style.display = 'none';
+                maximizeC.style.display = '';
+            }
+            if(json.type === 'maximize') {
+                restoreC.style.display = '';
+                maximizeC.style.display = 'none';
+            }
+        })
+        restoreC.style.display = 'none';
+        maximizeC.style.display = '';
+    </script>
 </body>
 </html>

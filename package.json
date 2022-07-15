@@ -1,6 +1,6 @@
 {
   "name": "momo-electron",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "a electron app for momo",
   "main": ".webpack/main",
   "scripts": {
@@ -29,7 +29,27 @@
   "homepage": "https://github.com/nokisnojok/momo-electron#readme",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "name": "momo-app",
+        "icon": "./public/logo.ico"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-zip"
+        }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "nokisnojok",
+              "name": "momo-electron"
+            },
+            "prerelease": true
+          }
+        }
+      ],
       "plugins": [
         [
           "@electron-forge/plugin-webpack",
@@ -52,8 +72,11 @@
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.64",
+    "@electron-forge/maker-zip": "^6.0.0-beta.64",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.64",
+    "@electron-forge/publisher-github": "^6.0.0-beta.64",
     "electron": "^19.0.8",
+    "electron-forge-maker-nsis-web": "^23.3.1",
     "hooks": "^0.3.2",
     "husky": "^8.0.1",
     "prettier": "^2.7.1",
