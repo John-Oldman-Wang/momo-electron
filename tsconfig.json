@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": false,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "removeComments": true,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react",
+    "outDir": "dist",
+    "lib": ["es2017", "esnext", "dom", "dom.iterable"],
+    "baseUrl": ".",
+    "paths": {
+      "react": ["node_modules/@de-pa/react"],
+      "react-dom": ["node_modules/@de-pa/react-dom"]
+    },
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*", "index.d.ts"],
+  "exclude": ["node_modules"]
+}
