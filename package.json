@@ -1,5 +1,5 @@
 {
-  "name": "momo-electron",
+  "name": "momo-app",
   "version": "0.0.1",
   "description": "a electron app for momo",
   "main": ".webpack/main",
@@ -28,55 +28,15 @@
   },
   "homepage": "https://github.com/nokisnojok/momo-electron#readme",
   "config": {
-    "forge": {
-      "packagerConfig": {
-        "name": "momo-app",
-        "icon": "./public/logo.ico"
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-zip"
-        }
-      ],
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "repository": {
-              "owner": "nokisnojok",
-              "name": "momo-electron"
-            },
-            "prerelease": true
-          }
-        }
-      ],
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "mainConfig": "./scripts/webpack.main.config.js",
-            "renderer": {
-              "config": "./scripts/webpack.renderer.config.js",
-              "entryPoints": [
-                {
-                  "html": "./src/index.html",
-                  "js": "./src/renderer.ts",
-                  "name": "main_window"
-                }
-              ]
-            }
-          }
-        ]
-      ]
-    }
+    "forge": "./forge.config.js"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.64",
     "@electron-forge/maker-zip": "^6.0.0-beta.64",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.64",
     "@electron-forge/publisher-github": "^6.0.0-beta.64",
+    "app-builder-lib": "^23.3.1",
     "electron": "^19.0.8",
-    "electron-forge-maker-nsis-web": "^23.3.1",
     "hooks": "^0.3.2",
     "husky": "^8.0.1",
     "prettier": "^2.7.1",
@@ -90,7 +50,7 @@
   "dependencies": {
     "@de-pa/react": "0.0.6",
     "@de-pa/react-dom": "0.0.6",
-    "electron": "^19.0.8",
+    "electron-updater": "^5.0.5",
     "injection-js": "^2.4.0",
     "reflect-metadata": "^0.1.13"
   }
