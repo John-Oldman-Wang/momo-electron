@@ -1,13 +1,5 @@
 const path = require('path');
 module.exports = {
-    hooks: {
-        postPackage: async (forgeConfig, options) => {
-            console.log({
-                forgeConfig,
-                options,
-            });
-        },
-    },
     packagerConfig: {
         name: 'momo-app',
         icon: './public/logo.ico',

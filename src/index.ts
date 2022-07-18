@@ -13,10 +13,6 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-    console.log({
-        a: MAIN_WINDOW_WEBPACK_ENTRY,
-        b: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-    });
     await createWindow({ preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY, url: MAIN_WINDOW_WEBPACK_ENTRY });
     setTimeout(() => {
         checkForUpdates();
@@ -36,7 +32,7 @@ app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
+        createWindow({ preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY, url: MAIN_WINDOW_WEBPACK_ENTRY });
     }
 });
 
